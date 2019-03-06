@@ -1,0 +1,100 @@
+#===== PRVA NALOGA =====
+#a
+
+CREATE TABLE oseba (
+	id INTEGER PRIMARY KEY,
+	ime TEXT NOT NULL,
+	rojstvo DATE NOT NULL
+	);
+	
+#b
+
+CREATE TABLE otroci (
+  stars INTEGER NOT NULL REFERENCES oseba(id),
+  otrok INTEGER NOT NULL REFERENCES oseba(id),
+  PRIMARY KEY (stars, otrok),
+  CHECK (stars <> otrok)
+);
+
+#c
+
+CREATE TABLE znamka (
+  id SERIAL PRIMARY KEY,
+  ime UNIQUE NOT NULL
+);
+
+#d
+
+CREATE TABLE traktor (
+  id SERIAL PRIMARY KEY,
+  lastnik INTEGER NOT NULL REFERENCES oseba(id),
+  znamka  INTEGER NOT NULL REFERENCES znamka(id),
+  barva TEXT,
+  nakup DATE DEFAULT now() CHECK (nakup <= now())
+);
+
+#e
+
+CREATE TABLE deli (
+  lastnik INTEGER NOT NULL REFERENCES oseba(id),
+  znamka  INTEGER NOT NULL REFERENCES znamka(id),
+  tip TEXT NOT NULL,
+  stevilo INTEGER DEFAULT 1 CHECK (stevilo > 0)
+); 
+
+## V splošnem želimo imeti primary key, vendar v tem primeru ga ne potrebujemo
+
+
+#===== DRUGA NALOGA =====
+
+#1.1
+
+SELECT * FROM kraj
+ORDER BY kraj
+
+#2.1
+
+SELECT * FROM oseba
+ORDER BY rojstvo DESC
+LIMIT 1 ## za samo najmlajšo osebo
+
+#2.2
+
+SELECT * FROM transakcija
+ORDER BY abs(znesek) DESC
+LIMIT 3
+
+#===== TRATJA NALOGA =====
+
+#1.
+
+SELECT posta, count(*) FROM oseba
+GROUP BY posta
+
+#2.
+
+SELECT racun, sum(znesek) AS stanje FROM transakcija
+GROUP BY racun
+
+#3.
+
+SELECT racun, ime, priimek, sum(znesek) AS stanje FROM transakcija
+JOIN racun ON racun = stevilka
+JOIN oseba ON lastnik = emso
+GROUP BY racun, ime, priimek
+
+#3.1 -> ALTERNATIVNO (?)
+
+SELECT racun, max(ime), min(priimek), sum(znesek) AS stanje FROM transakcija
+JOIN racun ON racun = stevilka
+JOIN oseba ON lastnik = emso
+GROUP BY racun
+
+#4 KOMBINIRANA UPORABA
+
+SELECT racun, ime, priimek, sum(znesek) AS stanje FROM transakcija
+JOIN racun ON racun = stevilka
+JOIN oseba ON lastnik = emso
+GROUP BY racun, ime, priimek
+ORDER BY stanje DESC
+# ORDER BY sum(stanje+racun) DESC
