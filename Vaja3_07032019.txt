@@ -1,0 +1,100 @@
+èe se sklicuješ na drugo tabelo REFERENCES moraš napisat NOT NULL, drugaèe ti bo dovolil da daš prazno vrednost
+
+ALTER spreminjamo obstojeèe tabele
+
+ALTER TABLE tabela ALTER stolpec SET NOT NULL 
+
+Primer:
+ALTER TABLE traktor ALTER lastnik SET NOT NULL;
+ALTER TABLE traktor ALTER znamka SET NOT NULL;
+ALTER TABLE deli ALTER lastnik SET NOT NULL;
+ALTER TABLE deli ALTER znamka SET NOT NULL;
+
+# VAJE 3
+
+SELECT DISTINCT stolpci
+FROM tabela 1
+JOIN tabela2 ON pogoj
+WHERE pogoj
+GROUP BY stolpci
+LIMIT stevilo
+
+JOIN
+# 1
+
+LEFT JOIN, èe je kakšna vrstica v prvi tabeli, ki nima ustrezne vrstic ev drugi tabeli glede na pogoj, ohrani vrstico iz prve tabele, stolpcem iz durge tabele pa da vrednost NULL 
+RIGHT JOIN 
+FULL JOIN ohrani vse vrstice iz obeh tabel
+
+SELECT * FROM oseba
+LEFT JOIN traktor ON oseba.id = traktor.lastnik
+WHERE traktor.id = NULL
+
+niè ne dobimo, NULL okuži cel rezultat -> uporabljaš IS NULL, IS NOT NULL
+
+#3 ne ve kako sešteva datum in niz, ::INTERVAL pretvori v interval 
+
+#4 
+zaceli s starim starsom:
+
+SELECT otrok.ime AS otrok, stari_stars.ime AS stari_stars 
+FROM oseba AS stari_stars
+JOIN otroci AS o1 ON stari_stars.id = o1.stars
+JOIN otroci AS o2 ON o1.otrok = o2.stars
+RIGHT JOIN oseba AS otrok ON o2.otrok = otrok.id
+
+zamenjamo vrsti red: štratamo z otrokom in gremo do starega starsa
+SELECT otrok.ime AS otrok, stari_stars.ime AS stari_stars 
+FROM oseba AS otrok
+LEFT JOIN otroci AS o2 ON o2.otrok = otrok.id
+JOIN otroci AS o1 ON o1.otrok = o2.stars --izgubimo tiste ki nimajo starsa
+JOIN oseba AS stari_stars ON stari_stars.id = o1.stars
+
+--PRAVILNO:
+SELECT otrok.ime AS otrok, stari_stars.ime AS stari_stars 
+FROM oseba AS otrok
+LEFT JOIN otroci AS o2 ON o2.otrok = otrok.id
+LEFT JOIN otroci AS o1 ON o1.otrok = o2.stars
+LEFT JOIN oseba AS stari_stars ON stari_stars.id = o1.stars
+
+--Ponovijo se nekateri, pri prvem joinu dve vrstici za vsakega starsa
+--Izgoibaj se JOIN, zato prvi vrstni red najbolj optimalen
+
+GROUP BY, HAVING
+pogoji na že agregiranih podatkih, na skupinah lahko damo HAVING
+
+SELECT DISTINCT stolpci
+FROM tabela 1
+JOIN tabela2 ON pogoj
+WHERE pogoj
+GROUP BY stolpci
+HAVING pogoj
+LIMIT stevilo
+
+--1
+--2 
+SELECT ime, count(*)
+FROM znamka
+LEFT JOIN traktor ON znamka.id = traktor.znamka
+GROUP BY ime
+
+-- šteje 1 èeprav nimamo traktorja s to znamko
+
+SELECT ime, count(traktor.id)
+FROM znamka
+LEFT JOIN traktor ON znamka.id = traktor.znamka
+GROUP BY ime
+
+
+--4
+SELECT DISTINCT stolpci
+FROM tabela 1
+JOIN tabela2 ON pogoj
+WHERE pogoj
+GROUP BY stolpci
+HAVING pogoj
+ORDER BY stolpec ASC/DESC
+LIMIT stevilo
+
+
+-- pri having ne morše novega imena stolpca uporabit, pri GROUP BY PA LAHKO

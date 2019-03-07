@@ -1,0 +1,133 @@
+
+-CREATE TABLE tabela (stolpec1 tip1 PRIMARY KEY
+                    UNIQUE
+                    NOT NULL
+                    DEFAULT izraz
+                    CHECK (pogoj)
+                    REFERENCES tabela2 (stolpec),
+            stolpec2 ...,
+            PRIMARY KEY (stolpec1,stolpec2,...)
+            FOREIGN KEY (stolpec1, stolpec2,...) REFERENCES tabela2 (stolpec1,stolpec2,...))
+-SELECT sum(znesek * power(1.01, extract (epoch FROM now() - cas)/60/60/24/30))
+FROM transakcija
+WHERE racun = 100001
+
+
+spletna aplikacija, kjer bomo uporabili bazo zadaj
+
+SQL
+odprtokodna baza
+
+v vsaki bazi lahko veè table
+vsaka tabel fiksno šteivlo sotlpec
+
+BROWSE -> VRSTICE
+
+INSERT -> vstavimo vrstico
+
+UPDATE ->spreminja obstojeèe vrtsice
+
+DELETE ->briše vrstice
+
+
+referenca, tiste vrednsoti, ki se pojavijo v tem stolpcu so lahko samo tiste k si v tabeli kraj. èe bi hoteli neko vrednost, ki ni v tabli kraj, bi morali prej dodat v tabelo
+
+ne rabiš pisat stolpcev, èe boš v vse stolpce dodal kar spustiš
+
+ENOJNE NAVEDNICE za beseilo!
+èe boš pisal številko kjer je text s ebo pretvorila
+
+DATUMI v obliki yyyy-mm-dd
+
+
+èe jue glavni kljuè pomeni, da se lahko pojavi samo enkrat!
+UNIQUE omejitev isto to pove, prazne vrednosti se lahko poavijo veèkrat, pri primary key pa tega ni
+
+tuji kljuèi so ponavadi refrence na glavne kljuèe druge tabele
+
+
+raèun -> stevilka ima neko privzeto vrednost.
+èe narediš rèaun in ne boš podal številke, ti bo avtomatsko generiralo.
+tudi v SQL stavku ga kar spustiš in vpisuješ smao lastnika
+
+
+ÈAS hh:mm:ss
+
+privzeto funckija now() = za èas naredi trenutni èas
+
+NALOGA 4
+SPODOBI se da daješ pogoj na glavni kljuè, ker veš da je enolièno.
+ne dovoli baza spreminjat, ker emšo tudi v durgi tabelah
+
+NALOGA 6
+
+4. 
+SELECT *, znesek/100  FROM transakcija 
+WHERE znesek > 1000 
+
+celo število / celo število -> celo štecilo
+
+SELECT *, znesek/100.0  FROM transakcija 
+WHERE znesek > 1000 
+
+dobimo decimalne
+
+SELECT *, 100 * (znesek/100) AS zaokrozen_znesek FROM transakcija 
+WHERE znesek > 1000 
+
+5. 
+SELECT ime, priimek, kraj
+FROM oseba JOIN kraj ON oseba.posta = kraj.posta
+
+
+samo stolpce iz tabele kraj iz ZDRUŽENE TABELE ŽE:
+SELECT kraj.*
+FROM oseba JOIN kraj ON oseba.posta = kraj.posta
+
+
+USING (kio pokažeš vse vrstice, pokaže smao en stolpec pošta ne dva, kot èe imaš ON)
+
+SELECT *
+FROM oseba JOIN kraj USING posta
+
+
+AMBIGIOUS = dvakrat se ponovi
+
+SELECT ime, priimek, kraj
+FROM oseba JOIN kraj ON oseba.posta = kraj.posta
+WHERE oseb.posta > 10
+
+
+NATURAL JOIN = isto kot èe bi rekli using pa našteli vse stolpce, ki s eponovijo v obeh tabelah
+=združi se po vseh tolpcih z istim imenom, PREVIDNO
+
+6.
+SELECT *
+FROM oseba NATURAL JOIN kraj 
+WHERE kraj = 'Maribor'
+
+KOMPLICIRANE POIZVEDBE:
+
+5.
+SELECT DISTINCT ime, priimek FROM transakcija
+JOIN racun ON transakcija.racun = racun.stevilka
+JOIN oseba ON racun.lastnik = oseba. emso
+WHERE abs(znesek) >= 1000
+
+DISTINCT = prikaž evsako vrstico samo enkrat, ni ponovitev
+
+6. 
+SELECT DISTINCT ime || ' ' || priimek || ' iz kraja ' || kraj  FROM transakcija
+JOIN racun ON transakcija.racun = racun.stevilka
+JOIN oseba ON racun.lastnik = oseba.emso
+NATURAL JOIN kraj 
+WHERE abs(znesek) >= 1000
+
+7.
+SELECT now() - cas
+FROM transakcija
+WHERE racun = 100002
+
+SELECT sum(znesek * power(1.01,extract(epoch FROM now() - cas)/60/60/24/30))
+FROM transakcija
+WHERE racun = 100002
