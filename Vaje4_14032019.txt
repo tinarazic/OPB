@@ -1,0 +1,58 @@
+CREATE VIEW pogled AS 
+SELECT .....
+(imena stolpca v SQL stavku bodo imena stolpcev v pogledu)
+
+pogledi so vmesne poizvedbe, splaèa se osebe po ID, da bomo lahko naprej združevali
+
+pogledi se obnašajo kot tabele
+FULL JOIN 
+
+INTERSECT presek, EXCEPT razlike
+gledamo kot množice in zato ohrani samo eno vrstico(kot DISTINCT)...uporabiš UNION ALL, da ohrani obe vrstice(podvojene)
+UNION dela med dvema selectoma
+
+1.3
+
+SELECT *
+FROM traktor_premozenje 
+UNION ALL
+SELECT *
+from deli_premozenje
+
+
+ALI group by po lastniku in sum po vrednosti
+
+SELECT .....
+FROM (select ...) AS podpoizvedba
+(postgres zahteva da poimenuješ podpoizvedbo)
+
+v podpoizvedbi se lahko sklicuješ na zunanje stolpce, ampak prednost imajo stolpci iz podpoizvedbe èe imamo ista imena stolpcev, nato gre šele gledat ven
+
+WITH isto kot èe bi imeli nek pogled s tem imenom smao d aga nismo shranili, velja smao za trenutno poizvedbo
+
+na ta naèin ni terba pisat podpoizvedbe veèkrat
+
+
+
+SELECT * FROM oseba
+WHERE EXISTS (
+ SELECT otrok FROM otroci
+ WHERE stars = oseba.id
+-- lahko bi pisali samo id, ker stolpca id itk ni v tabeli otroci in gre direktno ven gledat
+) AND EXISTS (
+ SELECT id FROM znamka
+ WHERE id = ALL(
+  SELECT znamka FROM traktor
+  RIGHT JOIN otroci 
+  ON otrok = lastnik AND znamka = znamka.id
+-- z right join dodali tudi tiste otroke, ki nimajo traktorja
+  WHERE stars = oseba.id 
+))
+-- zgronja podpoizvedba bo vrnila bo znamko za otorka èe obstaja ali pa NULL, èe otrok nima traktorja te znamke
+
+6.
+DVOPIÈJE za spremembo tipa!!
+
+7. 
+alternativa za group by in count -> JOIN
+
