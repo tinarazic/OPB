@@ -1,0 +1,104 @@
+ER diagram
+
+ENITETA je vsaka opremljiva stvar, ki jo hoèemo v bazi opisat
+ATRIBUTI: kljuè
+
+RELACIJA je povezava med enitetami, vèasih imamo lahko tui a relacijah atribute
+
+
+ŠIBKA entiteta je doloèena z relacijami na druge entitete in atribute
+
+!!!!!Glej LIST!!!!!
+
+CREATE TABLE podjetje(
+	ime TEXT PRIMARY KEY,
+	telefon text);
+
+CRETAE TABLE lekarna(
+	ime TEXT PRIMARY KEY,
+	naslov TEXT,
+	telefon TEXT);
+
+CREATE TABLE zdravilo(
+	podjetje TEXT REFERENCES podjetje(ime)
+		ON UPDATE CASCADE --(ko podjetje spremeni ime, tudi zdravilo spremeni)
+		ON DELETE CASCADE, --(ko podjetje izbiršmeo se zdravila izbišejo),
+	ime TEXT,
+	formula TEXT,
+	PRIMARY KEY (podjetje, ime));
+
+CREATE TABLE prodaja( --relacija med zdravilom in lekarno
+	lekarna TEXT REFERENCES lekarna(ime)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	podjetje TEXT,
+	ime TEXT, 
+	cena INTEGER,
+	FOREIGN KEY (podjetje, ime) REFERENCES zdravilo(podjetje, ime)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	PRIMARY KEY (lekarna, podjetje, ime));
+-- v praksi ne bi tega poèeli
+	
+
+CREATE TABLE pogodba(
+	podjetje TEXT REFERENCES podjetje(ime)
+		ON UPDATE RESTRICT
+		ON DELETE RESTRICT,
+	lekarna TEXT REFERENCES lekarna(ime)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT,
+	zaèetek DATE, 
+	konec DATE, 
+	besedilo TEXT, 
+	PRIMARY KEY (podjetje, lekarna));
+
+CREATE TABLE zdravnik(
+	emso TEXT PRIMARY KEY, 
+	ime TEXT, 
+	specializacija TEXT, 
+	izkusnje INTEGER,
+	lekrana TEXT REFERENCES lekarna(ime)
+		ON UPDATE CASCADE
+		ON DELETE SET NULL); --CASCADE BI POMENIL, DA ÈE LEKARNO POBRIŠEMO SE TUDI ZDRAVNIK POBRIŠE
+
+CREATE TABLE nadzoruje(
+	zdravnik TEXT PRIMARY KEY REFERENCES zdravnik(emso)
+		ON DELETE RESTRICT,
+	podjetje TEXT,
+	lekaran TEXT, --treba dat oba stolpca not, saj je v pogodbi to primary key
+	zacetek DATE, 
+	konec DATE, 
+	FOREIGN KEY (podjetje, lekarna) REFERENCES pogodba(podjteje, lekarna)
+		ON UPDATE RESTRICT
+		ON DELETE CASCADE);
+
+CREATE TABLE pacient(
+	emso TEXT PRIMARY KEY, 
+	ime TEXT, 
+	nalov TEXT,
+	starost INTEGER,
+	zdravnik TEXT NOT NULL REFERENCES zdravnik(emso)
+		ON DELETE RESTRICT);
+
+CREATE TABLE recept(
+	pacient TEXT REFERENCES pacient(emso)
+		ON DELETE CASCADE,
+	zdravnik TEXT REFERENCES zdravnik(emso)
+		ON DELETE RESTRICT,
+	podjetje TEXT, 
+	ime TEXT,
+	datum DATE, 
+	kolicina INTEGER,
+	FOREIGN KEY (podjetje, ime) REFRENCES zdravilo(podjetje, ime)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT,
+	PRIMARY KEY (pacient, zdravnik, podjetje, ime));
+	 
+
+
+
+	
+	
+	
+	

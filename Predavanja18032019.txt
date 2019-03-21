@@ -1,0 +1,23 @@
+mkdir nareid mapico
+ls kaj je v tje mapi
+pwd kje si
+cd greš v to mapo M + TAB
+cd .. pomeni eno mapico gor
+
+- so stikala
+-l = podrobnejši izpis
+
+cd -> skoèiš v delovno obmoèje (home/ime mape)
+
+nano -> enostaven editorèek, ki pride zraven
+èe obstaja nam odpre, èe ne ustvari novo
+
+clear zbriše ekran
+
+mv -> move kaj kam...preimunuje
+
+cp -> copy 
+sudo -> nareid kot administrator
+
+ž npoševnica
+è ; 
