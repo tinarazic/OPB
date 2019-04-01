@@ -1,0 +1,47 @@
+strežnik nalga= èe grem na link z brskalnikom, da neki vrne nazaj
+
+DEKORATORJI= funkcije, ki prejmejo funckije in vrnejo novo funkcijo
+bottle.route =poveš neko pot naj se klièe funckija krena
+SPLETNI STREŽNIKi = nabor funckij, kjer so navodila, èe kdo klièe to route klièi to
+
+Obstajata dv atipa zahtevkov: get, put, post
+get: poveš brskalniku da gre na ta link
+
+get -> dobiš kodo odgovoroa:
+200 -> dobiš kr hoèeš
+304 -> pošilja zadeve(vsebino strani)
+404 -> ne moreš do tega vira, ker ni niè tam
+500 -> usuje se ob klicu server
+
+ko greš na spletno stran-> brskalnik dobi html in èe so še slike -> brsklanik sproži klice na vse slike in css...->naredi 20 klicev na strežnik na razliène route
+
+
+BOOTSTRAP KNJIŽNICA STILOV IN KOMPONENT
+css datotetka s stili
+
+http protokol:greš na en link in ti on da, konec pogovora
+èe hoèeš, da ve kaj si prej naredil 
+
+primer: karton pri zdravniku
+
+priškotki so kartoni -> brskalnik piškotek shrani in ko spet klièeš, ta isti karton priloži in ga da
+
+prviè ko se logiraš si zapiše in vrne nazaj in naslednjiè ko prideš  samo doda...èe jih ne bi bilo: strežnik ne bi mogel vodit evidence
+
+PIŠKOTKI SO SLOVARJI
+- v bottle obstaja funkcija, ki prebere sporoèilo z cookija
+
+
+funkcija GET_USER:
+- klièemo jo že takoj na zaèetku
+- ugotovi ali si pravi user ali pa te redirecta
+
+PREDLOGE ZA SPLETNE STRANI zgledjao kot html, le poveš kaj je na praznih mestih
+
+
+BOOTSTRAP KNJIŽNICA STILOV IN KOMPONENT:
+-container
+-form =hmtl znaèka, ki objema veè input znaèk(kot bi si predstavljala birokratski obrazec)
+<form ...method =post ali get (pri formah ponavadi post, ker spreminajo) action = "." (pomeni trenutni naslov, klièe funkcijo post na trenutnem loginu)>
+-<button type="submit"(ko pritisniš gumb, naredi post zahtevek)
+
