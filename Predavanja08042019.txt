@@ -1,0 +1,51 @@
+fakebook na strežniku bottle
+
+HTML:
+submit -> gumbek
+name -> kljuè
+
+
+login.html:
+vsi html se zaènejo z znaèko html in konèajo
+head - title -> naslov v zavihku
+v datotekah css so stili=skupek oblikovnih lastnosti
+zeleno je komentar
+<!--
+body - h2 -> vecji naslov (6 naslovov maš)
+div je neka škatla
+
+CSS (zaversnik css):
+èe ni s pikicami pomeni na vseh znaèkah body nastavi to 
+selektorji -> povejo na katere znaèe stile dat
+(.nekoime { lastnost: vrednost;} (te lastnosti so doloèene) -> class ="fakebook" ta stil uporabiš tu
+# -> na element s toèno tem idjem
+margin odmiki med škatlicami
+pa.. odmiki od vsebine
+z-index 
+
+BOOTSTRAP knjižnica ki ima css not
+
+rebase: za osnovo vzameš tisti html in tm kjer piše pa vstaviš to not kar sem spodaj napisal
+% %
+ {{!base}}
+
+include
+
+{{ uporabljajo parametre ki so v zunanjem klicu include
+
+href -> kam skoèi
+
+shraniš + SHIFT + RELOAD -> so vidne spremembe
+
+VIEW -> kako zgledajo strani
+MODEL -> del ki dostopa do baze in ki preslikava rute v funkcije
+
+JAVA SCRIPT = jezik, ki ga lahko izvaja brskalnik (to ni isto kot Java)
+popravlja kar v živo html, na brskalniku
+BOOTstrap še java script uporablja
+
+brskalnik -> spletna stran > preglej element ->console -> lahko vpisuješ java script
+
+ORM - v programskem jeziku narediš objekte in klièeš metode na objekti, tako se sql sami generirajo in ni potrebno pisat
+
+
